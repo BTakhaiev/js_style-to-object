@@ -5,24 +5,33 @@
  *
  * @return {object}
  */
+
 function convertToObject(sourceString) {
-  return sourceString
-    .trim()
-    .split(';')
-    .map((declaration) => declaration.trim())
-    .filter((declaration) => declaration)
-    .reduce((accumulator, declaration) => {
-      const parts = declaration.split(':');
+  const sourceArray = sourceString.split(`;`);
+  const array1 = [];
+  const array2 = [];
 
-      if (parts.length === 2) {
-        const key = parts[0].trim();
-        const value = parts[1].trim();
+  for (const array of sourceArray) {
+    const deleteSpace = array.trim();
 
-        accumulator[key] = value;
-      }
+    if (deleteSpace.length >= 2) {
+      array1.push(deleteSpace);
+    }
+  }
 
-      return accumulator;
-    }, {});
+  for (const elements of array1) {
+    const object = elements.split(`:`);
+
+    array2.push(object);
+  }
+
+  const result = array2.reduce((acc, [key, value]) => {
+    acc[key.trim()] = value.trim();
+
+    return acc;
+  }, {});
+
+  return result;
 }
 
 module.exports = convertToObject;
